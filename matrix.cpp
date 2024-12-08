@@ -252,3 +252,130 @@ std::ostream& operator<<(std::ostream& o, const matrix& m) {
     return o;
 }
 
+// Operator przypisania
+/**
+ * @brief Operator przypisania kopii macierzy.
+ * 
+ * @param m Obiekt klasy matrix do przypisania
+ * @return matrix& Odwołanie do obecnego obiektu macierzy
+ */
+matrix& matrix::operator=(const matrix& m) {
+    if (this == &m) return *this;
+    if (data) deallocateMemory();
+    size = m.size;
+    allocateMemory(size);
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            data[i][j] = m.data[i][j];
+        }
+    }
+    return *this;
+}
+
+/**
+ * @brief Operator przypisania dla liczby, ustawia wszystkie wartości w macierzy na tę liczbę.
+ * 
+ * @param a Wartość, którą należy przypisać wszystkim komórkom macierzy
+ * @return matrix& Odwołanie do obecnego obiektu macierzy
+ */
+matrix& matrix::operator=(double a) {
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            data[i][j] = static_cast<int>(a);
+        }
+    }
+    return *this;
+}
+
+/**
+ * @brief Operator dodawania macierzy.
+ * 
+ * @param m Macierz, którą dodajemy do bieżącej macierzy
+ * @return matrix& Odwołanie do obecnego obiektu macierzy
+ */
+matrix& matrix::operator+(const matrix& m) {
+    if (size != m.size) throw std::invalid_argument("Matrix sizes must be the same");
+    matrix temp(size);
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            temp.data[i][j] = data[i][j] + m.data[i][j];
+        }
+    }
+    return *this = temp;
+}
+
+/**
+ * @brief Operator mnożenia macierzy przez liczbę.
+ * 
+ * @param a Liczba, przez którą mnożymy wszystkie elementy macierzy
+ * @return matrix& Odwołanie do obecnego obiektu macierzy
+ */
+matrix& matrix::operator*(int a) {
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            data[i][j] *= a;
+        }
+    }
+    return *this;
+}
+
+/**
+ * @brief Operator += dla dodawania liczby do wszystkich elementów macierzy.
+ * 
+ * @param a Liczba, którą dodajemy do wszystkich elementów
+ * @return matrix& Odwołanie do obecnego obiektu macierzy
+ */
+matrix& matrix::operator+=(int a) {
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            data[i][j] += a;
+        }
+    }
+    return *this;
+}
+
+/**
+ * @brief Operator porównania == dla macierzy.
+ * 
+ * @param m Obiekt klasy matrix, z którym porównujemy
+ * @return bool Zwraca true, jeśli macierze są równe
+ */
+bool matrix::operator==(const matrix& m) const {
+    if (size != m.size) return false;
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            if (data[i][j] != m.data[i][j]) return false;
+        }
+    }
+    return true;
+}
+
+/**
+ * @brief Operator porównania > dla macierzy.
+ * 
+ * @param m Obiekt klasy matrix, z którym porównujemy
+ * @return bool Zwraca true, jeśli wszystkie elementy bieżącej macierzy są większe niż odpowiadające elementy macierzy m
+ */
+bool matrix::operator>(const matrix& m) const {
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            if (data[i][j] <= m.data[i][j]) return false;
+        }
+    }
+    return true;
+}
+
+/**
+ * @brief Operator porównania < dla macierzy.
+ * 
+ * @param m Obiekt klasy matrix, z którym porównujemy
+ * @return bool Zwraca true, jeśli wszystkie elementy bieżącej macierzy są mniejsze niż odpowiadające elementy macierzy m
+ */
+bool matrix::operator<(const matrix& m) const {
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            if (data[i][j] >= m.data[i][j]) return false;
+        }
+    }
+    return true;
+}
