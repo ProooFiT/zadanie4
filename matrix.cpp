@@ -192,3 +192,63 @@ matrix& matrix::szachownica() {
     return *this;
 }
 
+/**
+ * @brief Tworzy macierz jednostkową (1 na przekątnej, 0 w pozostałych miejscach).
+ * 
+ * @return matrix& Odwołanie do obecnego obiektu macierzy
+ */
+matrix& matrix::przekatna() {
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            data[i][j] = (i == j) ? 1 : 0;
+        }
+    }
+    return *this;
+}
+
+/**
+ * @brief Tworzy macierz z 1 poniżej przekątnej (pozostałe miejsca to 0).
+ * 
+ * @return matrix& Odwołanie do obecnego obiektu macierzy
+ */
+matrix& matrix::pod_przekatna() {
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            data[i][j] = (i > j) ? 1 : 0;
+        }
+    }
+    return *this;
+}
+
+/**
+ * @brief Tworzy macierz z 1 powyżej przekątnej (pozostałe miejsca to 0).
+ * 
+ * @return matrix& Odwołanie do obecnego obiektu macierzy
+ */
+matrix& matrix::nad_przekatna() {
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            data[i][j] = (i < j) ? 1 : 0;
+        }
+    }
+    return *this;
+}
+
+// Operator wyjścia
+/**
+ * @brief Operator wyjścia do strumienia.
+ * 
+ * @param o Strumień wyjściowy
+ * @param m Obiekt klasy matrix
+ * @return std::ostream& Strumień wyjściowy
+ */
+std::ostream& operator<<(std::ostream& o, const matrix& m) {
+    for (int i = 0; i < m.size; i++) {
+        for (int j = 0; j < m.size; j++) {
+            o << m.data[i][j] << " ";
+        }
+        o << "\n";
+    }
+    return o;
+}
+
