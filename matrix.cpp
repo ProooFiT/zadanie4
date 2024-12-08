@@ -89,3 +89,64 @@ void matrix::deallocateMemory() {
     size = 0;
 }
 
+// Metody klasowe
+
+/**
+ * @brief Funkcja alokująca pamięć dla nowej macierzy o rozmiarze n x n.
+ * 
+ * @param n Rozmiar nowej macierzy
+ * @return matrix& Odwołanie do obecnego obiektu macierzy
+ */
+matrix& matrix::alokuj(int n) {
+    if (data) deallocateMemory();
+    size = n;
+    allocateMemory(n);
+    return *this;
+}
+
+/**
+ * @brief Ustawia wartość w komórce macierzy.
+ * 
+ * @param x Indeks wiersza
+ * @param y Indeks kolumny
+ * @param wartosc Wartość do ustawienia w komórce
+ * @return matrix& Odwołanie do obecnego obiektu macierzy
+ */
+matrix& matrix::wstaw(int x, int y, int wartosc) {
+    if (x < size && y < size) {
+        data[x][y] = wartosc;
+    }
+    return *this;
+}
+
+/**
+ * @brief Zwraca wartość z komórki macierzy.
+ * 
+ * @param x Indeks wiersza
+ * @param y Indeks kolumny
+ * @return int Wartość przechowywana w danej komórce
+ * @throws std::out_of_range Jeśli indeksy są poza zakresem
+ */
+int matrix::pokaz(int x, int y) const {
+    if (x < size && y < size) {
+        return data[x][y];
+    }
+    throw std::out_of_range("Index out of range");
+}
+
+/**
+ * @brief Tworzy macierz transponowaną (zamienia wiersze z kolumnami).
+ * 
+ * @return matrix& Odwołanie do obecnego obiektu macierzy
+ */
+matrix& matrix::dowroc() {
+    matrix temp(size);
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            temp.data[i][j] = data[j][i];
+        }
+    }
+    *this = temp;
+    return *this;
+}
+
