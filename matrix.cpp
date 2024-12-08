@@ -63,3 +63,29 @@ matrix::~matrix() {
     deallocateMemory();
 }
 
+// Alokacja pamięci
+/**
+ * @brief Funkcja pomocnicza do alokacji pamięci dla macierzy o wymiarach n x n.
+ * 
+ * @param n Rozmiar macierzy (n x n)
+ */
+void matrix::allocateMemory(int n) {
+    data = new int*[n];
+    for (int i = 0; i < n; i++) {
+        data[i] = new int[n] {};  // Inicjalizuje macierz zerami
+    }
+}
+
+// Dealokacja pamięci
+/**
+ * @brief Zwalnia pamięć alokowaną dla macierzy.
+ */
+void matrix::deallocateMemory() {
+    for (int i = 0; i < size; i++) {
+        delete[] data[i];
+    }
+    delete[] data;
+    data = nullptr;
+    size = 0;
+}
+
