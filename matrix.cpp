@@ -150,3 +150,45 @@ matrix& matrix::dowroc() {
     return *this;
 }
 
+/**
+ * @brief Losuje wartości w macierzy z zakresu 1-100.
+ * 
+ * @return matrix& Odwołanie do obecnego obiektu macierzy
+ */
+matrix& matrix::losuj() {
+    std::srand(static_cast<unsigned int>(std::time(0))); // Inicjalizacja generatora losowego
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            data[i][j] = std::rand() % 100 + 1; // Losowa liczba od 1 do 100
+        }
+    }
+    return *this;
+}
+
+/**
+ * @brief Ustawia wartości na przekątnej macierzy na podstawie podanej tablicy.
+ * 
+ * @param t Tablica z danymi do wstawienia na przekątną
+ * @return matrix& Odwołanie do obecnego obiektu macierzy
+ */
+matrix& matrix::diagonalna(int* t) {
+    for (int i = 0; i < size; i++) {
+        data[i][i] = t[i]; // Ustawienie wartości na przekątnej
+    }
+    return *this;
+}
+
+/**
+ * @brief Tworzy macierz szachownicy (przeplatane 0 i 1).
+ * 
+ * @return matrix& Odwołanie do obecnego obiektu macierzy
+ */
+matrix& matrix::szachownica() {
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            data[i][j] = (i + j) % 2; // 1 lub 0 w zależności od sumy indeksów
+        }
+    }
+    return *this;
+}
+
